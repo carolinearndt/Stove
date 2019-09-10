@@ -4,7 +4,21 @@
  */
 
 public class Burner {
-	public enum Temperature { BLAZING, HOT, WARM, COLD};
+	public enum Temperature { 
+		
+		BLAZING ("VERY HOT! DON'T TOUCH"), HOT("CAREFUL"), WARM("warm"), COLD("cool");
+		
+		private String temperature;
+		
+		Temperature (String temperature){
+			this.temperature = temperature;
+		}
+		
+		public String toString() {
+			return temperature;
+		}
+		
+		};
 	private Temperature myTemperature;
 	private Setting mySetting;
 	private int timer;
@@ -63,7 +77,7 @@ public class Burner {
 			myTemperature = Temperature.COLD;
 			break;
 		default:
-			// If the temp is COLD dont increment
+			// If the temp is COLD dont decrement
 			break;
 		}
 	}
