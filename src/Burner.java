@@ -1,3 +1,7 @@
+/*
+ * Caroline Arndt
+ * Christopher Matthes
+ */
 
 public class Burner {
 	public enum Temperature { BLAZING, HOT, WARM, COLD};
@@ -15,6 +19,53 @@ public class Burner {
 		this.myTemperature = Temperature.COLD;
 		this.mySetting = Setting.OFF;
 		this.timer = 0;
+	}
+	
+	// For ease of comparing setting vs temperature
+	private int convertToInt() {
+		switch (myTemperature) {
+		case BLAZING:
+			return 3;
+		case HOT:
+			return 2;
+		case WARM:
+			return 1;
+		default:
+			return 0;
+		}
+	}
+	private void increaseTemp() {
+		switch(myTemperature) {
+		case HOT:
+			myTemperature = Temperature.BLAZING;
+			break;
+		case WARM:
+			myTemperature = Temperature.HOT;
+			break;
+		case COLD:
+			myTemperature = Temperature.WARM;
+			break;
+		default:
+			// If the temp is blazing dont increment
+			break;
+		}
+	}
+	
+	private void decreaseTemp() {
+		switch(myTemperature) {
+		case BLAZING:
+			myTemperature = Temperature.HOT;
+			break;
+		case HOT:
+			myTemperature = Temperature.WARM;
+			break;
+		case WARM:
+			myTemperature = Temperature.COLD;
+			break;
+		default:
+			// If the temp is COLD dont increment
+			break;
+		}
 	}
 	
 	public void plusButton () {
@@ -60,11 +111,23 @@ public class Burner {
 		while(timer > 0) {
 			timer --;
 			if (timer > 0) {
-				continue;
+				break;
 			}
 			// compare setting and temperature, return new temperature
 			// compare and change if necessary
 			
+			if (mySetting.convertToInt() == convertToInt()) {
+				return;
+			}
+			else {
+				timer = TIME_DURATION;
+				if (mySetting.convertToInt() > convertToInt()) {
+					increaseTemp();
+				}
+				else {
+					decreaseTemp();
+				}
+			}
 		}
 		
 	}
